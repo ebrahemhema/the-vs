@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>أدوات مكتبية</title>
+  <link rel="icon" type="image/png" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/webfonts/fa-solid-900.ttf">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #2196F3;
+      --secondary-color: #1976D2;
+      --success-color: #4CAF50;
+      --background-color: #f5f5f5;
+      --card-color: #ffffff;
+      --text-color: #333333;
+      --border-radius: 12px;
+      --shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: var(--background-color);
+      padding: 20px;
+      direction: rtl;
+      line-height: 1.6;
+      color: var(--text-color);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 30px;
+      background: white;
+      padding: 15px;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+    }
+
+    .back-btn {
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      margin-left: 20px;
+    }
+
+    .header h1 {
+      margin: 0;
+      color: var(--primary-color);
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .product {
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 15px;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+
+    .product-image {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+
+    .product-name {
+      font-weight: 600;
+      font-size: 1.1em;
+      margin-bottom: 10px;
+      min-height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .product-price {
+      color: var(--primary-color);
+      font-weight: bold;
+      font-size: 1.2em;
+      margin: 10px 0;
+    }
+
+    .product-qty {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .qty-btn {
+      width: 40px;
+      height: 40px;
+      border: none;
+      background: var(--primary-color);
+      color: white;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .qty-btn:hover {
+      background: var(--secondary-color);
+    }
+
+    .product-qty input {
+      width: 60px;
+      height: 40px;
+      text-align: center;
+      font-size: 18px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+    }
+
+    .cart-summary {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      right: 20px;
+      background: white;
+      padding: 15px;
+      border-radius: var(--border-radius);
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .cart-summary.active {
+      display: flex;
+    }
+
+    .cart-info {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .checkout-btn {
+      background: var(--success-color);
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 10px;
+      }
+
+      .container {
+        padding: 10px;
+      }
+
+      .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+
+      .product {
+        padding: 10px;
+      }
+
+      .product-image {
+        height: 120px;
+      }
+
+      .product-name {
+        font-size: 0.9em;
+      }
+
+      .qty-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 18px;
+      }
+
+      .product-qty input {
+        width: 50px;
+        height: 35px;
+        font-size: 16px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .products-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .header {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+      }
+
+      .back-btn {
+        margin: 0;
+      }
+    }
+
+    /* إضافة أنماط السلة */
+    .cart-button {
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      position: relative;
+    }
+
+    .cart-count {
+      background: var(--success-color);
+      color: white;
+      border-radius: 50%;
+      padding: 2px 6px;
+      font-size: 12px;
+      position: absolute;
+      top: -8px;
+      left: -8px;
+    }
+
+    .cart-popup {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 20px;
+      border-radius: var(--border-radius);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      z-index: 1000;
+      max-width: 90%;
+      width: 400px;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    .cart-popup.active {
+      display: block;
+    }
+
+    .popup-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 999;
+    }
+
+    .popup-overlay.active {
+      display: block;
+    }
+
+    .popup-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .close-popup {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #666;
+    }
+
+    .popup-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .popup-item:last-child {
+      border-bottom: none;
+    }
+
+    .popup-total {
+      margin-top: 20px;
+      padding-top: 10px;
+      border-top: 2px solid #eee;
+      display: flex;
+      justify-content: space-between;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <a href="index.html" class="back-btn">
+        <i class="fas fa-arrow-right"></i>
+        رجوع
+      </a>
+      <h1>أدوات مكتبية</h1>
+      <button class="cart-button" onclick="toggleCartPopup()">
+        <i class="fas fa-shopping-cart"></i>
+        السلة
+        <span class="cart-count" id="headerCartCount">0</span>
+      </button>
+    </div>
+
+    <!-- إضافة السلة المنبثقة -->
+    <div class="popup-overlay" id="popupOverlay" onclick="toggleCartPopup()"></div>
+    <div class="cart-popup" id="cartPopup">
+      <div class="popup-header">
+        <h3>محتويات السلة</h3>
+        <button class="close-popup" onclick="toggleCartPopup()">&times;</button>
+      </div>
+      <div id="popupItems"></div>
+      <div class="popup-total">
+        <span>الإجمالي:</span>
+        <span id="popupTotal">0 ج.م</span>
+      </div>
+      <button class="whatsapp-btn" onclick="proceedToCheckout()" style="margin-top: 15px;">
+        إتمام الطلب
+        <i class="fas fa-arrow-left"></i>
+      </button>
+    </div>
+
+    <div class="products-grid" id="productsGrid"></div>
+
+    <div class="cart-summary" id="cartSummary">
+      <div class="cart-info">
+        <div>
+          <i class="fas fa-shopping-cart"></i>
+          <span id="itemCount">0</span> منتج
+        </div>
+        <div>الإجمالي: <span id="totalPrice">0</span> ج.م</div>
+      </div>
+      <button class="checkout-btn" onclick="proceedToCheckout()">
+        متابعة الطلب
+        <i class="fas fa-arrow-left"></i>
+      </button>
+    </div>
+  </div>
+
+  <script>
+    const products = [
+      {
+        id: 'office-1',
+        name: 'قلم حبر جاف',
+        price: 15,
+        category: 'office'
+      },
+      {
+        id: 'office-2',
+        name: 'دفتر ملاحظات',
+        price: 12,
+        category: 'office'
+      },
+      {
+        id: 'office-3',
+        name: 'ورق طباعة A4',
+        price: 25,
+        category: 'office'
+      },
+      {
+        id: 'office-4',
+        name: 'ملف بلاستيك',
+        price: 8,
+        category: 'office'
+      },
+      {
+        id: 'office-5',
+        name: 'دباسة',
+        price: 20,
+        category: 'office'
+      },
+      {
+        id: 'office-6',
+        name: 'مقص مكتبي',
+        price: 10,
+        category: 'office'
+      },
+      {
+        id: 'office-7',
+        name: 'شريط لاصق',
+        price: 5,
+        category: 'office'
+      },
+      {
+        id: 'office-8',
+        name: 'قلم رصاص',
+        price: 7,
+        category: 'office'
+      }
+    ];
+
+    let cart = JSON.parse(localStorage.getItem('cart')) || {};
+
+    function updateCart() {
+      const cartCount = Object.values(cart).reduce((sum, item) => sum + item.quantity, 0);
+      const cartTotal = Object.values(cart).reduce((sum, item) => sum + (item.quantity * item.price), 0);
+      
+      document.getElementById('itemCount').textContent = cartCount;
+      document.getElementById('totalPrice').textContent = cartTotal.toLocaleString('ar-EG');
+      document.getElementById('cartSummary').classList.toggle('active', cartCount > 0);
+      
+      localStorage.setItem('cart', JSON.stringify(cart));
+    }
+
+    function createProductElement(product) {
+      const productDiv = document.createElement('div');
+      productDiv.className = 'product';
+      
+      const cartItem = cart[product.id] || { quantity: 0 };
+      
+      productDiv.innerHTML = `
+        <img src="images.png" alt="${product.name}" class="product-image">
+        <div class="product-name">${product.name}</div>
+        <div class="product-price">${product.price} ج.م</div>
+        <div class="product-qty">
+          <button class="qty-btn minus" onclick="updateQuantity('${product.id}', -1)">-</button>
+          <input type="number" value="${cartItem.quantity}" min="0" onchange="setQuantity('${product.id}', this.value)">
+          <button class="qty-btn plus" onclick="updateQuantity('${product.id}', 1)">+</button>
+        </div>
+      `;
+      
+      return productDiv;
+    }
+
+    function updateQuantity(productId, change) {
+      const product = products.find(p => p.id === productId);
+      if (!product) return;
+      
+      if (!cart[productId]) {
+        cart[productId] = {
+          name: product.name,
+          price: product.price,
+          quantity: 0,
+          category: product.category
+        };
+      }
+      
+      const newQuantity = (cart[productId].quantity || 0) + change;
+      if (newQuantity >= 0) {
+        cart[productId].quantity = newQuantity;
+        if (newQuantity === 0) {
+          delete cart[productId];
+        }
+        updateCart();
+        renderProducts();
+      }
+    }
+
+    function setQuantity(productId, value) {
+      const product = products.find(p => p.id === productId);
+      if (!product) return;
+      
+      const quantity = parseInt(value) || 0;
+      if (quantity >= 0) {
+        if (quantity === 0) {
+          delete cart[productId];
+        } else {
+          cart[productId] = {
+            name: product.name,
+            price: product.price,
+            quantity: quantity,
+            category: product.category
+          };
+        }
+        updateCart();
+        renderProducts();
+      }
+    }
+
+    function renderProducts() {
+      const grid = document.getElementById('productsGrid');
+      grid.innerHTML = '';
+      products.forEach(product => {
+        grid.appendChild(createProductElement(product));
+      });
+    }
+
+    // Initial render
+    renderProducts();
+    updateCart();
+
+    function proceedToCheckout() {
+      if (Object.keys(cart).length === 0) {
+        alert('يرجى اختيار منتج واحد على الأقل');
+        return;
+      }
+      
+      window.location.href = 'checkout.html';
+    }
+  </script>
+</body>
+</html> 

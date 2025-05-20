@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>إكمال الطلب</title>
+  <link rel="icon" type="image/png" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/webfonts/fa-solid-900.ttf">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #2196F3;
+      --secondary-color: #1976D2;
+      --success-color: #4CAF50;
+      --background-color: #f5f5f5;
+      --card-color: #ffffff;
+      --text-color: #333333;
+      --border-radius: 12px;
+      --shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: var(--background-color);
+      padding: 20px;
+      direction: rtl;
+      line-height: 1.6;
+      color: var(--text-color);
+    }
+
+    .container {
+      max-width: 800px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 30px;
+      background: white;
+      padding: 15px;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+    }
+
+    .back-btn {
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      margin-left: 20px;
+    }
+
+    .header h1 {
+      margin: 0;
+      color: var(--primary-color);
+    }
+
+    .checkout-form {
+      background: white;
+      padding: 30px;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 30px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: var(--text-color);
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #eee;
+      border-radius: var(--border-radius);
+      font-family: 'Cairo', sans-serif;
+      font-size: 1em;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: var(--primary-color);
+      outline: none;
+    }
+
+    .cart-summary {
+      background: white;
+      padding: 20px;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 30px;
+    }
+
+    .cart-items {
+      margin-bottom: 20px;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .cart-item:last-child {
+      border-bottom: none;
+    }
+
+    .cart-total {
+      display: flex;
+      justify-content: space-between;
+      font-weight: bold;
+      padding-top: 15px;
+      border-top: 2px solid #eee;
+    }
+
+    .whatsapp-btn {
+      background: #25D366;
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      font-size: 1.1em;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    .whatsapp-btn:hover {
+      background: #128C7E;
+    }
+
+    .error-message {
+      color: #f44336;
+      margin-top: 5px;
+      font-size: 0.9em;
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 10px;
+      }
+
+      .container {
+        padding: 10px;
+      }
+
+      .header {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+      }
+
+      .back-btn {
+        margin: 0;
+      }
+
+      .checkout-form {
+        padding: 20px;
+      }
+    }
+
+    .category-section {
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+    }
+    .category-section h3 {
+      color: var(--primary-color);
+      margin-bottom: 10px;
+      padding-bottom: 5px;
+      border-bottom: 1px solid #eee;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <a href="javascript:history.back()" class="back-btn">
+        <i class="fas fa-arrow-right"></i>
+        رجوع
+      </a>
+      <h1>إكمال الطلب</h1>
+    </div>
+
+    <div class="cart-summary">
+      <h2>ملخص الطلب</h2>
+      <div class="cart-items" id="cartItems">
+        <!-- سيتم ملء هذا القسم بواسطة JavaScript -->
+      </div>
+      <div class="cart-total">
+        <span>الإجمالي:</span>
+        <span id="cartTotal">0 ج.م</span>
+      </div>
+    </div>
+
+    <div class="checkout-form">
+      <h2>بيانات التوصيل</h2>
+      <div class="form-group">
+        <label for="name">الاسم بالكامل</label>
+        <input type="text" id="name" required>
+        <div class="error-message" id="nameError">يرجى إدخال الاسم</div>
+      </div>
+      <div class="form-group">
+        <label for="phone">رقم الجوال</label>
+        <input type="tel" id="phone" required>
+        <div class="error-message" id="phoneError">يرجى إدخال رقم جوال صحيح</div>
+      </div>
+      <div class="form-group">
+        <label for="address">عنوان التوصيل</label>
+        <textarea id="address" rows="3" required></textarea>
+        <div class="error-message" id="addressError">يرجى إدخال العنوان</div>
+      </div>
+      <div class="form-group">
+        <label for="notes">ملاحظات إضافية (اختياري)</label>
+        <textarea id="notes" rows="2"></textarea>
+      </div>
+      <button class="whatsapp-btn" onclick="sendToWhatsApp()">
+        <i class="fab fa-whatsapp"></i>
+        إرسال الطلب عبر واتساب
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // استرجاع بيانات السلة من localStorage
+    const cart = JSON.parse(localStorage.getItem('cart')) || {};
+    
+    // عرض محتويات السلة
+    function displayCart() {
+      const cartContainer = document.getElementById('cartItems');
+      let total = 0;
+      
+      // تجميع المنتجات حسب الفئة
+      const categorizedItems = {
+        office: [],
+        cleaning: [],
+        buffet: []
+      };
+
+      // تصنيف المنتجات
+      Object.entries(cart).forEach(([id, item]) => {
+        if (categorizedItems[item.category]) {
+          categorizedItems[item.category].push(item);
+        }
+      });
+
+      // إنشاء HTML للمنتجات مرتبة حسب الفئة
+      let cartHTML = '';
+      
+      if (categorizedItems.buffet.length > 0) {
+        cartHTML += '<div class="category-section"><h3>البوفيه</h3>';
+        categorizedItems.buffet.forEach(item => {
+          const itemTotal = item.price * item.quantity;
+          total += itemTotal;
+          cartHTML += `
+            <div class="cart-item">
+              <span>${item.name} × ${item.quantity}</span>
+              <span>${itemTotal} ج.م</span>
+            </div>
+          `;
+        });
+        cartHTML += '</div>';
+      }
+
+      if (categorizedItems.cleaning.length > 0) {
+        cartHTML += '<div class="category-section"><h3>مستلزمات النظافة</h3>';
+        categorizedItems.cleaning.forEach(item => {
+          const itemTotal = item.price * item.quantity;
+          total += itemTotal;
+          cartHTML += `
+            <div class="cart-item">
+              <span>${item.name} × ${item.quantity}</span>
+              <span>${itemTotal} ج.م</span>
+            </div>
+          `;
+        });
+        cartHTML += '</div>';
+      }
+
+      if (categorizedItems.office.length > 0) {
+        cartHTML += '<div class="category-section"><h3>أدوات مكتبية</h3>';
+        categorizedItems.office.forEach(item => {
+          const itemTotal = item.price * item.quantity;
+          total += itemTotal;
+          cartHTML += `
+            <div class="cart-item">
+              <span>${item.name} × ${item.quantity}</span>
+              <span>${itemTotal} ج.م</span>
+            </div>
+          `;
+        });
+        cartHTML += '</div>';
+      }
+      
+      cartContainer.innerHTML = cartHTML || '<p>لا توجد منتجات في السلة</p>';
+      document.getElementById('cartTotal').textContent = `${total} ج.م`;
+    }
+
+    // التحقق من صحة البيانات
+    function validateForm() {
+      const name = document.getElementById('name').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const address = document.getElementById('address').value.trim();
+      let isValid = true;
+
+      if (!name) {
+        document.getElementById('nameError').style.display = 'block';
+        isValid = false;
+      } else {
+        document.getElementById('nameError').style.display = 'none';
+      }
+
+      if (!phone || !/^[0-9]{10,}$/.test(phone)) {
+        document.getElementById('phoneError').style.display = 'block';
+        isValid = false;
+      } else {
+        document.getElementById('phoneError').style.display = 'none';
+      }
+
+      if (!address) {
+        document.getElementById('addressError').style.display = 'block';
+        isValid = false;
+      } else {
+        document.getElementById('addressError').style.display = 'none';
+      }
+
+      return isValid;
+    }
+
+    // إرسال الطلب عبر واتساب
+    function sendToWhatsApp() {
+      if (!validateForm()) return;
+
+      const name = document.getElementById('name').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const address = document.getElementById('address').value.trim();
+      const notes = document.getElementById('notes').value.trim();
+      
+      let message = `*طلب جديد*%0a%0a`;
+      message += `*بيانات العميل:*%0a`;
+      message += `الاسم: ${name}%0a`;
+      message += `الجوال: ${phone}%0a`;
+      message += `العنوان: ${address}%0a`;
+      if (notes) message += `ملاحظات: ${notes}%0a`;
+      
+      message += `%0a*تفاصيل الطلب:*%0a`;
+      let total = 0;
+
+      // تجميع المنتجات حسب الفئة
+      const categorizedItems = {
+        office: [],
+        cleaning: [],
+        buffet: []
+      };
+
+      Object.entries(cart).forEach(([id, item]) => {
+        if (categorizedItems[item.category]) {
+          categorizedItems[item.category].push(item);
+        }
+      });
+
+      // إضافة المنتجات للرسالة مرتبة حسب الفئة
+      if (categorizedItems.buffet.length > 0) {
+        message += `%0a_البوفيه:_%0a`;
+        categorizedItems.buffet.forEach(item => {
+          const itemTotal = item.price * item.quantity;
+          total += itemTotal;
+          message += `${item.name} × ${item.quantity} = ${itemTotal} ج.م%0a`;
+        });
+      }
+
+      if (categorizedItems.cleaning.length > 0) {
+        message += `%0a_مستلزمات النظافة:_%0a`;
+        categorizedItems.cleaning.forEach(item => {
+          const itemTotal = item.price * item.quantity;
+          total += itemTotal;
+          message += `${item.name} × ${item.quantity} = ${itemTotal} ج.م%0a`;
+        });
+      }
+
+      if (categorizedItems.office.length > 0) {
+        message += `%0a_أدوات مكتبية:_%0a`;
+        categorizedItems.office.forEach(item => {
+          const itemTotal = item.price * item.quantity;
+          total += itemTotal;
+          message += `${item.name} × ${item.quantity} = ${itemTotal} ج.م%0a`;
+        });
+      }
+      
+      message += `%0a*الإجمالي: ${total} ج.م*`;
+
+      // رقم الواتساب الخاص بالمتجر
+      const whatsappNumber = '201285938886';
+      
+      window.open(`https://wa.me/${whatsappNumber}?text=${message}`);
+    }
+
+    // عرض السلة عند تحميل الصفحة
+    displayCart();
+  </script>
+</body>
+</html> 
